@@ -7,10 +7,11 @@
 }
 :root{
     --layout-background-color: red;
-    --cor-primaria: #327ae7;
-    --cor-secundaria: #242424;
-    --text-color: #FFFFFF;
+    --layout-color-1: #327ae7;
+    --layout-color-2: #242424;
+    --layout-text-color: #FFFFFF;
 }
+
 
 body{
     width: 100vw;
@@ -29,10 +30,10 @@ aside{
     align-items: center;
     gap: 2rem;
     padding: 1rem;
-    background: var(--cor-secundaria);
+    background: var(--layout-color-2);
 }
 aside h3{
-    color: var(--cor-secundaria);
+    color: var(--layout-color-2);
     filter: invert(100%) contrast(200%);
 }
 
@@ -67,8 +68,8 @@ th, td {
 }
 
 th {
-    background-color: var(--cor-primaria);
-    color: var(--text-color);
+    background-color: var(--layout-color-1);
+    color: var(--layout-text-color);
 }
 
 td{
@@ -89,7 +90,7 @@ section{
     flex-grow: 8.6;
     position: relative;
     overflow: hidden;
-    background: var(--cor-primaria);
+    background: var(--layout-color-1);
 }
 
 .carousel{
@@ -110,8 +111,8 @@ section{
 
 .ticket-counter-display{
     flex-grow: 1.4;
-    background: var(--cor-primaria);
-    color: var(--text-color);
+    background: var(--layout-color-1);
+    color: var(--layout-text-color);
     display: flex;
     align-items: center;
     justify-content: space-around;
@@ -128,7 +129,7 @@ section{
     aside{
         width: 100%;
         height: 75%;
-        background: var(--cor-secundaria);
+        background: var(--layout-color-2);
     }
 
     section{
@@ -154,6 +155,6 @@ section{
     } */
 
     .ticket-counter-display{
-        background: var(--cor-primaria);
+        background: var(--layout-color-1);
     }
 }
