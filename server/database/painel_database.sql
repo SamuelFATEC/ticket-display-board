@@ -5,13 +5,12 @@ CREATE DATABASE IF NOT EXISTS `painel_database`
 USE `painel_database`
 
 CREATE TABLE IF NOT EXISTS `users` (
-	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
-	`name` varchar(255) NOT NULL,
-	`cpf` varchar(11) NOT NULL,
-	`rg` varchar(10) NOT NULL,
-	`date_birthday` date NOT NULL,
-	`passwords_id` int NOT NULL,
-	PRIMARY KEY (`id`)
+    `id` int AUTO_INCREMENT NOT NULL,
+    `name` varchar(255) NOT NULL,
+    `cpf` varchar(11) NOT NULL UNIQUE,
+    `rg` varchar(10) NOT NULL,
+    `date_birthday` date NOT NULL,
+    PRIMARY KEY (`id`)
 );
 
 CREATE TABLE IF NOT EXISTS `passwords` (
@@ -34,7 +33,7 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
 	PRIMARY KEY (`id`)
 );
 
-ALTER TABLE `users` ADD CONSTRAINT `users_fk5` FOREIGN KEY (`passwords_id`) REFERENCES `passwords`(`id`);
+
 ALTER TABLE `passwords` ADD CONSTRAINT `passwords_fk5` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
 ALTER TABLE `feedbacks` ADD CONSTRAINT `feedbacks_fk4` FOREIGN KEY (`user_id`) REFERENCES `users`(`id`);
 
