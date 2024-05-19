@@ -1,63 +1,110 @@
-// Inicialização quando o DOM está pronto
 document.addEventListener("DOMContentLoaded", initializeValues);
+
+const THEME_STORAGE_KEY = "themeStorage";
+const DEFAULT_THEME = {
+    "background-color": "#FFFFFF",
+    "text-color": "#FFFFFF",
+    "primary-color": "#00B0F0",
+    "secondary-color": "#262626",
+    "ui-show-time": "TRUE",
+    "ui-show-date": "TRUE",
+    "ui-show-temperature": "FALSE"
+};
+const THEME_KEYS = ["background-color", "text-color", "primary-color", "secondary-color"];
+const BOOLEAN_KEYS = ["ui-show-time", "ui-show-date", "ui-show-temperature"];
 
 // Função para inicializar os valores do tema
 function initializeValues() {
-    if (!localStorage.getItem("themeStorage")) {
-        // Define o tema padrão se não existir no localStorage
-        const defaultTheme = {
-            "background-color": "#FFFFFF",
-            "text-color": "#FFFFFF",
-            "primary-color": "#00B0F0",
-            "secondary-color": "#262626",
-        };
-
-        localStorage.setItem("themeStorage", JSON.stringify(defaultTheme));
-        console.log('\x1b[36m%s\x1b[0m', "Create themeStorage(Status): Success");
+    try {
+        if (!localStorage.getItem(THEME_STORAGE_KEY)) {
+            localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(DEFAULT_THEME));
+            console.log('Create themeStorage(Status): %cSuccess', 'color: green');
+        }
+        console.log('initializeValues(Status): %cCalled', 'color: green');
+        updateTheme();
+    } catch (error) {
+        console.error(`%cinitializeValues(Error): ${error.message}`, 'color: red');
     }
-    updateTheme();
 }
 
 // Função para salvar os valores atualizados do tema no localStorage
 function saveUpdatedValues() {
-    const updatedTheme = {
-        "background-color": document.getElementById("background-color").value.toUpperCase(),
-        "text-color": document.getElementById("text-color").value.toUpperCase(),
-        "primary-color": document.getElementById("primary-color").value.toUpperCase(),
-        "secondary-color": document.getElementById("secondary-color").value.toUpperCase()
-    };
+    try {
+        const updatedTheme = getUpdatedThemeValues();
+        localStorage.setItem(THEME_STORAGE_KEY, JSON.stringify(updatedTheme));
+        console.log('SaveUpdatedValues(Status): %cSuccess', 'color: green');
+        updateTheme();
+    } catch (error) {
+        console.error(`%cSaveUpdatedValues(Error): ${error.message}`, 'color: red');
+    }
+}
 
-    localStorage.setItem('themeStorage', JSON.stringify(updatedTheme));
-    console.log(localStorage.getItem('themeStorage'));
-    updateTheme();
+// Função para obter os valores atualizados do tema
+function getUpdatedThemeValues() {
+    const updatedTheme = {};
+    const allKeys = [...THEME_KEYS, ...BOOLEAN_KEYS];
+
+    allKeys.forEach(key => {
+        const element = document.getElementById(key);
+        if (element) {
+            updatedTheme[key] = element.value.toUpperCase();
+        }
+    });
+
+    return updatedTheme;
 }
 
 // Função para atualizar o tema com base nos valores do localStorage
 function updateTheme() {
-    const themeValues = JSON.parse(localStorage.getItem("themeStorage"));
-    const root = document.documentElement;
+    try {
+        const themeValues = JSON.parse(localStorage.getItem(THEME_STORAGE_KEY));
+        const root = document.documentElement;
 
-    Object.entries(themeValues).forEach(([key, value]) => {
-        root.style.setProperty(`--layout-${key}`, value);
-        document.getElementById(key).value = value;
-        document.getElementById(`span${Object.keys(themeValues).indexOf(key) + 1}`).textContent = value;
-    });
+        THEME_KEYS.forEach((key, index) => {
+            const value = themeValues[key];
+            root.style.setProperty(`--layout-${key}`, value);
+            updateElementValue(key, value);
+            updateSpanText(index + 1, value);
+        });
 
-    notifyStorageChange();
+        console.log('UpdateTheme(Status): %cSuccess', 'color: green');
+        notifyStorageChange();
+    } catch (error) {
+        console.error(`%cUpdateTheme(Error): ${error.message}`, 'color: red');
+    }
+}
+
+// Função para atualizar o valor do elemento
+function updateElementValue(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.value = value;
+}
+
+// Função para atualizar o texto do span
+function updateSpanText(index, value) {
+    const span = document.getElementById(`span${index}`);
+    if (span) span.textContent = value;
 }
 
 // Função para notificar mudanças no localStorage
 function notifyStorageChange() {
-    const event = new Event('storageChange');
-    window.dispatchEvent(event);
+    try {
+        const event = new Event('storageChange');
+        window.dispatchEvent(event);
+        console.log('NotifyStorageChange(Status): %cSuccess', 'color: green');
+    } catch (error) {
+        console.error(`%cNotifyStorageChange(Error): ${error.message}`, 'color: red');
+    }
 }
 
-// Limpa o localStorage e recarrega a página quando a tecla '=' é pressionada
+// Evento para limpar o localStorage e recarregar a página quando a tecla '=' é pressionada
 document.addEventListener('keydown', (event) => {
     if (event.key === '=') {
         localStorage.clear();
         location.reload();
+        console.log('%cLocalStorage(Status): Cleared', 'color: green');
     }
+
 });
 
 // Adiciona um ouvinte de eventos para o botão de atualizar

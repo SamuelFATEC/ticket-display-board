@@ -17,7 +17,7 @@ addEventListener("keydown", (event) => {
         audio.play();
         setTimeout(() => {
             ticketHighlight.classList.remove("ticket-highlight-show");
-        }, 4000);
+        }, 5000);
     } 
 });
 

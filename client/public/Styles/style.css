@@ -78,6 +78,14 @@ tbody tr:nth-child(even) td{
     background: rgba(var(--layout-secondary-color), 0.5);
 } */
 
+.info{
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-evenly;
+    color: var(--layout-text-color);
+}
+
 section{
     width: 70vw;
     height: 100vh;
@@ -108,7 +116,7 @@ section{
     width: 300%;
     display: flex;
     flex: 4;
-    margin-left: 0%;
+    margin-left: -200%;
     height: 100%;
 }
 
