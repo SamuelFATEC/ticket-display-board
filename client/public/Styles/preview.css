@@ -1,18 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
 
+:root {
+    --layout-background-color: #ffffff;
+    --layout-primary-color: #327ae7;
+    --layout-secondary-color: #242424;
+    --layout-text-color: #FFFFFF;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
-
-:root {
-    --layout-background-color: #ffffff;
-    --layout-color-1: #327ae7;
-    --layout-color-2: #242424;
-    --layout-text-color: #FFFFFF;
-}
-
 
 body {
     width: 100vw;
@@ -21,6 +20,7 @@ body {
     flex-wrap: wrap;
     font-family: "Poppins", sans-serif;
     font-weight: 400;
+    background: #f3f3f3;
 }
 
 aside {
@@ -31,9 +31,9 @@ aside {
     align-items: start;
     gap: 3rem;
     padding: 1rem;
-
     color: #242424;
-    box-shadow: 0 0 15px -3px rgba(0,0,0,0.1);
+
+    background: white;
 }
 
 .swatch {
@@ -115,13 +115,14 @@ button:hover {
     grid-template-columns: .4fr 1fr;
     grid-template-rows: repeat(5, 1fr);
     padding: 1rem;
-    box-shadow: 0 0 15px -3px rgba(0,0,0,0.1);
+    box-shadow: 0 0 10px -3px rgba(0,0,0,0.1);
     border-radius: .5rem;
+    background: white;
 }
 
 .div1 {
     grid-area: 1 / 1 / 6 / 2; 
-    background-color: var(--layout-color-2);
+    background-color: var(--layout-secondary-color);
 }
 
 .carousel-ads {
@@ -129,7 +130,7 @@ button:hover {
     background-color: var(--layout-background-color);
     position: relative;
     overflow: hidden;
-    background: var(--layout-color-1);
+    background: var(--layout-primary-color);
 }
 
 .carousel {
@@ -141,6 +142,7 @@ button:hover {
 
 .carousel-item video {
     width: 100% !important;
+    aspect-ratio: 16 / 9;
 }
 
 .div3 {
@@ -150,7 +152,7 @@ button:hover {
     gap: 10rem;
     padding: 1rem;
     color: var(--layout-text-color);
-    background-color: var(--layout-color-1);
+    background-color: var(--layout-primary-color);
 }
 
 @media (max-width: 1024px) {
@@ -177,6 +179,6 @@ button:hover {
     }
 
     .ticket-counter-display {
-        background: var(--layout-color-1);
+        background: var(--layout-primary-color);
     }
 }

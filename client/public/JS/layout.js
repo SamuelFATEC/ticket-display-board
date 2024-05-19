@@ -1,69 +1,64 @@
+// Inicialização quando o DOM está pronto
+document.addEventListener("DOMContentLoaded", initializeValues);
 
-function loadValues(){
-    // verifica se stylesheetStorage ainda não existe no localStorage
-    if(!("stylesheetStorage" in localStorage)){
-
-        //cria um stylesheetStorage e o coloca no localStorage
-        var stylesheetValues = {
+// Função para inicializar os valores do tema
+function initializeValues() {
+    if (!localStorage.getItem("themeStorage")) {
+        // Define o tema padrão se não existir no localStorage
+        const defaultTheme = {
             "background-color": "#FFFFFF",
             "text-color": "#FFFFFF",
-            "primary-color":  "#262626",
-            "secundary-color": "#00B0F0",
+            "primary-color": "#00B0F0",
+            "secondary-color": "#262626",
         };
 
-        localStorage.setItem("stylesheetStorage", JSON.stringify(stylesheetValues))
-
-        console.log('\x1b[36m%s\x1b[0m', "Create stylesheetStorage(Status): Sucess")
+        localStorage.setItem("themeStorage", JSON.stringify(defaultTheme));
+        console.log('\x1b[36m%s\x1b[0m', "Create themeStorage(Status): Success");
     }
-    console.log(localStorage)
-    updateStyle()
+    updateTheme();
 }
 
-function updateValues(){
-    var newValues = JSON.parse(localStorage.getItem('stylesheetStorage')) || {}; 
-    newValues["background-color"] = document.getElementById("background-color").value.toUpperCase();
-    newValues["text-color"] = document.getElementById("text-color").value.toUpperCase();
-    newValues["primary-color"] = document.getElementById("primary-color").value.toUpperCase();
-    newValues["secundary-color"] = document.getElementById("secundary-color").value.toUpperCase();
+// Função para salvar os valores atualizados do tema no localStorage
+function saveUpdatedValues() {
+    const updatedTheme = {
+        "background-color": document.getElementById("background-color").value.toUpperCase(),
+        "text-color": document.getElementById("text-color").value.toUpperCase(),
+        "primary-color": document.getElementById("primary-color").value.toUpperCase(),
+        "secondary-color": document.getElementById("secondary-color").value.toUpperCase()
+    };
 
-    localStorage.setItem('stylesheetStorage', JSON.stringify(newValues));
-    console.log(localStorage['stylesheetStorage']);
-    updateStyle(); // Call updateStyle() after updating values
+    localStorage.setItem('themeStorage', JSON.stringify(updatedTheme));
+    console.log(localStorage.getItem('themeStorage'));
+    updateTheme();
 }
 
-function updateStyle() {
-    var stylesheetStyleValues = JSON.parse(localStorage.getItem("stylesheetStorage"));
-    var root = document.querySelector(':root')
-    root.style.setProperty('--layout-background-color', stylesheetStyleValues["background-color"])
-    root.style.setProperty('--layout-text-color', stylesheetStyleValues["text-color"])
-    root.style.setProperty('--layout-color-1', stylesheetStyleValues["primary-color"])
-    root.style.setProperty('--layout-color-2', stylesheetStyleValues["secundary-color"])  
-    
-    document.getElementById("background-color").value = stylesheetStyleValues["background-color"]
-    document.getElementById("text-color").value = stylesheetStyleValues["text-color"]
-    document.getElementById("primary-color").value = stylesheetStyleValues["primary-color"]
-    document.getElementById("secundary-color").value =  stylesheetStyleValues["secundary-color"]
+// Função para atualizar o tema com base nos valores do localStorage
+function updateTheme() {
+    const themeValues = JSON.parse(localStorage.getItem("themeStorage"));
+    const root = document.documentElement;
 
-    document.getElementById("span1").textContent = stylesheetStyleValues["background-color"]
-    document.getElementById("span2").textContent = stylesheetStyleValues["text-color"]
-    document.getElementById("span3").textContent = stylesheetStyleValues["primary-color"]
-    document.getElementById("span4").textContent = stylesheetStyleValues["secundary-color"]
-    console.log(localStorage)
+    Object.entries(themeValues).forEach(([key, value]) => {
+        root.style.setProperty(`--layout-${key}`, value);
+        document.getElementById(key).value = value;
+        document.getElementById(`span${Object.keys(themeValues).indexOf(key) + 1}`).textContent = value;
+    });
+
+    notifyStorageChange();
 }
 
+// Função para notificar mudanças no localStorage
+function notifyStorageChange() {
+    const event = new Event('storageChange');
+    window.dispatchEvent(event);
+}
 
-window.onload = function() {
-    loadValues();
-};
-
-document.addEventListener('keydown', function(event) {
-    // apaga o localStorage
+// Limpa o localStorage e recarrega a página quando a tecla '=' é pressionada
+document.addEventListener('keydown', (event) => {
     if (event.key === '=') {
-      localStorage.clear()
-
+        localStorage.clear();
+        location.reload();
     }
-})
+});
 
-document.querySelector("#atualizar").addEventListener("click", function() {
-    updateValues()
-})
+// Adiciona um ouvinte de eventos para o botão de atualizar
+document.getElementById("update").addEventListener("click", saveUpdatedValues);
