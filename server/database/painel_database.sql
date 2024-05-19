@@ -4,6 +4,7 @@ CREATE DATABASE IF NOT EXISTS `painel_database`
 
 USE `painel_database`
 
+DROP TABLE IF EXISTS `users`;
 CREATE TABLE IF NOT EXISTS `users` (
     `id` int AUTO_INCREMENT NOT NULL,
     `name` varchar(255) NOT NULL,
@@ -13,6 +14,7 @@ CREATE TABLE IF NOT EXISTS `users` (
     PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `passwords`;
 CREATE TABLE IF NOT EXISTS `passwords` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`password` int NOT NULL,
@@ -20,9 +22,12 @@ CREATE TABLE IF NOT EXISTS `passwords` (
 	`is_attended` boolean NOT NULL DEFAULT false,
 	`date_attended` datetime NOT NULL,
 	`user_id` int NOT NULL,
+	`is_priority` BOOLEAN DEFAULT false,
+	`urgency_level` int NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
+DROP TABLE IF EXISTS `feedbacks`;
 CREATE TABLE IF NOT EXISTS `feedbacks` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
 	`description` text NOT NULL,
