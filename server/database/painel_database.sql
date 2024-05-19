@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `passwords` (
 	`date_attended` datetime NOT NULL,
 	`user_id` int NOT NULL,
 	`is_priority` BOOLEAN DEFAULT false,
-	`urgency_level` int NOT NULL,
+	`urgency_level` CHAR(1) NOT NULL,
 	PRIMARY KEY (`id`)
 );
 
