@@ -11,6 +11,8 @@ CREATE TABLE IF NOT EXISTS `users` (
     `cpf` varchar(11) NOT NULL UNIQUE,
     `rg` varchar(10) NOT NULL,
     `date_birthday` date NOT NULL,
+		`is_especial` BOOLEAN DEFAULT false,
+		`deficiency` text,
     PRIMARY KEY (`id`)
 );
 
@@ -20,6 +22,7 @@ CREATE TABLE IF NOT EXISTS `passwords` (
 	`password` int NOT NULL,
 	`box` int NOT NULL,
 	`is_attended` boolean NOT NULL DEFAULT false,
+	`created_at` DATETIME NOT NULL,
 	`date_attended` datetime NOT NULL,
 	`user_id` int NOT NULL,
 	`is_priority` BOOLEAN DEFAULT false,
