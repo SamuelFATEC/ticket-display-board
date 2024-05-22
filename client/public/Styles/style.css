@@ -70,20 +70,20 @@ td{
     color: var(--layout-text-color);
 }
 
-/* tbody tr:nth-child(odd) td{
-    background: rgba(var(--layout-secondary-color), 0.8);
-}
-
-tbody tr:nth-child(even) td{
-    background: rgba(var(--layout-secondary-color), 0.5);
-} */
 
 .info{
-    display: flex;
     width: 100%;
+    height: fit-content;
+    display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: end;
+    gap: .5rem;
     color: var(--layout-text-color);
+}
+.info span{
+    min-width: 75px;
+    width: fit-content;
+    text-align: center;
 }
 
 section{
@@ -116,13 +116,15 @@ section{
     width: 300%;
     display: flex;
     flex: 4;
-    margin-left: -200%;
     height: 100%;
+
 }
 
 .carousel-item video{
     width: 70vw !important;
     aspect-ratio: 16 / 9;
+    line-height: 0;
+    display: block;
 }
 
 .ticket-highlight{
@@ -147,22 +149,20 @@ section{
 
 @media (max-width: 1024px) {
     body{
-        height: fit-content;
         flex-direction: column;
-        justify-content: space-around;
     }
     .logo{
         display: none;
     }
     aside{
         width: 100%;
-        height: fit-content;
+        height: 75%;
         background: var(--layout-secondary-color);
     }
 
     section{
+        height: 25%;
         width: 100%;
-        height: 25vh;
         flex-direction: column;
     }
 

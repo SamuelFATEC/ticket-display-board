@@ -8,10 +8,9 @@ const DEFAULT_THEME = {
     "secondary-color": "#262626",
     "ui-show-time": "TRUE",
     "ui-show-date": "TRUE",
-    "ui-show-temperature": "FALSE"
 };
 const THEME_KEYS = ["background-color", "text-color", "primary-color", "secondary-color"];
-const BOOLEAN_KEYS = ["ui-show-time", "ui-show-date", "ui-show-temperature"];
+const BOOLEAN_KEYS = ["ui-show-time", "ui-show-date"];
 
 // Função para inicializar os valores do tema
 function initializeValues() {
@@ -66,6 +65,7 @@ function updateTheme() {
             updateElementValue(key, value);
             updateSpanText(index + 1, value);
         });
+
 
         console.log('UpdateTheme(Status): %cSuccess', 'color: green');
         notifyStorageChange();
