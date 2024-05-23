@@ -4,6 +4,10 @@ from flask_cors import CORS
 from models.fetchUsers import fetchUsers
 from models.createNewUser import createUser
 
+from db import connectDatabase
+
+database = connectDatabase()
+
 app = Flask(__name__)
 CORS(app)
 
@@ -27,6 +31,15 @@ def create_user():
     return jsonify({ 'message': 'Usuário cadastrado com sucesso!' }), 201
   else:
     return jsonify({ 'message': 'Não foi possível cadastrar o usuário' }), 400
+
+@app.route('/get_numbers', methods=['GET'])
+
+def get_numbers():
+  response_data = {
+      'appointment_number': "NN0001",
+      'reception_number': "2"
+  }
+  return jsonify(response_data)
 
 if __name__ == "__main__":
   app.run(debug=True)

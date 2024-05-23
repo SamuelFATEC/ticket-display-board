@@ -10,11 +10,11 @@
     <aside>
         <img src="../Images/Placeholder.webp" alt="logo" class="logo">
         <table>
-            <h3>Últimas Chamadas</h3>
+            <h4>Últimas Chamadas</h4>
             <thead>
                 <tr>
-                    <th>Senha</th>
-                    <th>Guichê</th>
+                    <th><h4>Senha</h4></th>
+                    <th><h4>Senha</h4</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,18 +46,21 @@
                     <td>N0002</td>
                     <td>3</td>
                 </tr>
-                <tr>
-                    <td>N0001</td>
-                    <td>2</td>
-                </tr>
-                <tr>
-                    <td>N0000</td>
-                    <td>1</td>
-                </tr>
             </tbody>
         </table>
+
     </aside>
     <section>
+        <div class="ticket-counter-display">
+            <div>
+                <span>Senha:</span>
+                <h1 class="current-appointment-number">N0001</h1>
+            </div>
+            <div>
+                <span>Guichê:</span>
+                <h1 class="current-reception-number">2</h1>
+            </div>
+        </div>
         <div class="carousel-ads">
             <div class="carousel">
                 <div class="carousel-item"><video src="../Videos/video1.mp4" autoplay loop muted></video></div>
@@ -65,10 +68,24 @@
                 <div class="carousel-item"><video src="../Videos/video3.mp4" autoplay loop muted></video></div>
             </div>
         </div>
-        <div class="ticket-counter-display">
-            <h1>N0001</h1>
-            <h1>2</h1>
+        <div class="info">
+            <span id="info-date">Date</span>
+            <span id="info-time">Time</span>
         </div>
     </section>
+    <section class="ticket-highlight">
+        <div>
+            <span>Senha:</span>
+            <h1 class="current-appointment-number">N0001</h1>
+        </div>
+        <div>
+            <span>Guichê:</span>
+            <h1 class="current-reception-number">2</h1>
+        </div>
+    </section>
+    <script src="../JS/painel.js"></script>
+    <script src="../JS/carousel.js"></script>
+    <script src="../JS/dateTime.js"></script>
+    <script src="../JS/dataExchange.js"></script>
 </body>
 </html>
