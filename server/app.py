@@ -1,6 +1,9 @@
-from flask import Flask,  jsonify  
+from flask import Flask, request, jsonify
 from flask_cors import CORS
-# importei jsonify para o teste :)
+
+from models.fetchUsers import fetchUsers
+from models.createNewUser import createUser
+
 from db import connectDatabase
 
 database = connectDatabase()
@@ -8,24 +11,28 @@ database = connectDatabase()
 app = Flask(__name__)
 CORS(app)
 
-@app.route('/')
-def index():
-  return "Hello World"
+@app.route('/api/users')
+def fetch_users():
+  return fetchUsers()
 
+@app.route('/api/users/add', methods=["POST"])
+def create_user():
+  userData = request.json
 
-#teste: BATATA
+  print(userData)
+
+  cpf = userData["cpf"]
+  date_birthday = userData["date_birthday"]
+  name = userData["name"]
+  rg = userData["rg"]
+  isCreatedUser = createUser(name=name, cpf=cpf, rg=rg, date_birthday=date_birthday)
+
+  if(isCreatedUser):
+    return jsonify({ 'message': 'Usuário cadastrado com sucesso!' }), 201
+  else:
+    return jsonify({ 'message': 'Não foi possível cadastrar o usuário' }), 400
 
 @app.route('/get_numbers', methods=['GET'])
-
-# TESTE - BATATA_0001 (°O°)
-# A função  get_Numbers() retorna os números de chamada e recepção atuais em formato JSON.
-# Retorna:
-#     Um objeto JSON com as chaves 'appointment_number' e 'reception_number'
-#     'appointment_number' representa o número atual da chamada(NN0001)
-#     'reception_number' representa o número atual da recepção(2)
-# 
-# Os dados serão tratados em dataExchange.js e apresentados .-.
-# Obs.: A parte de ultimas chamadas não foi feita ainda e o código do js foi imporvisado, aceito sugestões de melhorias!
 
 def get_numbers():
   response_data = {
