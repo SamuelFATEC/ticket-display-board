@@ -25,7 +25,9 @@ def create_user():
   date_birthday = userData["date_birthday"]
   name = userData["name"]
   rg = userData["rg"]
-  isCreatedUser = createUser(name=name, cpf=cpf, rg=rg, date_birthday=date_birthday)
+  is_especial = userData["is_especial"]
+  deficiency = userData.get("deficiency", "")
+  isCreatedUser = createUser(name, cpf, rg, date_birthday, deficiency, is_especial)
 
   if(isCreatedUser):
     return jsonify({ 'message': 'Usuário cadastrado com sucesso!' }), 201
@@ -33,7 +35,6 @@ def create_user():
     return jsonify({ 'message': 'Não foi possível cadastrar o usuário' }), 400
 
 @app.route('/get_numbers', methods=['GET'])
-
 def get_numbers():
   response_data = {
       'appointment_number': "NN0001",
