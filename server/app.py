@@ -26,8 +26,8 @@ def create_user():
   name = userData["name"]
   rg = userData["rg"]
   is_especial = userData["is_especial"]
-  deficiency = userData.get("deficiency", "")
-  isCreatedUser = createUser(name, cpf, rg, date_birthday, deficiency, is_especial)
+  deficiency = userData.get("deficiency", " ")
+  isCreatedUser = createUser(name, cpf, rg, date_birthday, is_especial, deficiency)
 
   if(isCreatedUser):
     return jsonify({ 'message': 'Usuário cadastrado com sucesso!' }), 201
