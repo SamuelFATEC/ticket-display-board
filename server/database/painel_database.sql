@@ -9,7 +9,6 @@ CREATE TABLE IF NOT EXISTS `users` (
     `id` int AUTO_INCREMENT NOT NULL,
     `name` varchar(255) NOT NULL,
     `cpf` varchar(11) NOT NULL UNIQUE,
-    `rg` varchar(10) NOT NULL,
     `date_birthday` date NOT NULL,
 		`is_especial` BOOLEAN DEFAULT false,
 		`deficiency` text,
