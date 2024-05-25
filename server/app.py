@@ -88,12 +88,55 @@ def create_password():
     return jsonify({ 'id': last_inserted_id, 'password': password["formatedPassword"] }), 201
   return jsonify({ 'message': "Não foi possível cadastrar uma nova senha" }), 400
 
-@app.route('/get_numbers', methods=['GET'])
-def get_numbers():
+@app.route('/api/passwords/next', methods=['GET'])
+def get_next_password():
+  dataJson = readJson()
+  queue = dataJson["queue"]
+  boxes = dataJson["boxes"]
+  if(len(queue) == 0):
+    return jsonify({ 'message': "Não há ninguém na fila de espera" }), 200
+  '''
+    os boxes (receptions_number) 0 e 1 têm que ser preferenciais, o restante tudo normal!!
+  '''
 
+  proximoDaFila = queue[0]
+  fifo = proximoDaFila.split('.')
+  reception_number = 1
+  if(fifo[0] == 'P'):
+    if(boxes[0] == 0):
+      boxes[0] = proximoDaFila
+    elif(boxes[0] != 0 and boxes[1] == 0):
+      boxes[1] = proximoDaFila
+      reception_number = 2
+    elif(boxes[0] != 0 and boxes[1] != 0):
+      return jsonify({ 'message': "Aguardando liberação da recepção 1" }), 400
+  else:
+    if(boxes[2] == 0):
+      boxes[2] = proximoDaFila
+      reception_number = 3
+    elif(boxes[2] != 0 and boxes[3] == 0):
+      boxes[3] = proximoDaFila
+      reception_number = 4
+    elif(boxes[2] != 0 and boxes[3] != 0 and boxes[4] == 0):
+      boxes[4] = proximoDaFila
+      reception_number = 5
+    elif(boxes[2] != 0 and boxes[3] != 0 and boxes[4] != 0):
+      return jsonify({ 'message': "Aguardando liberação da recepção 2" }), 400
+  
+  print(queue)
+  newQueue = queue[1:] if queue else queue
+  dataJson = {
+    'boxes': boxes,
+    'queue': newQueue
+  }
+
+  # print(dataJson)
+  createJson(data=json.dumps(dataJson))
+  
+  appointment_number = fifo[0] + fifo[1] + fifo[2]
   response_data = {
-      'appointment_number': "NN0001",
-      'reception_number': "2"
+      'appointment_number': appointment_number,
+      'reception_number': reception_number
   }
   return jsonify(response_data)
   
