@@ -9,6 +9,7 @@ from models.passwords import fetch_last_password, createPassword, fetchPasswords
 
 from utils.generate_password import generatePassword
 from utils.reorder_queue_by_priority import organizeQueue
+from utils.reorder_boxes import reorderBoxes
 
 from lib.json import createJson, readJson
 
@@ -95,42 +96,19 @@ def get_next_password():
   boxes = dataJson["boxes"]
   if(len(queue) == 0):
     return jsonify({ 'message': "Não há ninguém na fila de espera" }), 200
-  '''
-    os boxes (receptions_number) 0 e 1 têm que ser preferenciais, o restante tudo normal!!
-  '''
-
-  proximoDaFila = queue[0]
-  fifo = proximoDaFila.split('.')
-  reception_number = 1
-  if(fifo[0] == 'P'):
-    if(boxes[0] == 0):
-      boxes[0] = proximoDaFila
-    elif(boxes[0] != 0 and boxes[1] == 0):
-      boxes[1] = proximoDaFila
-      reception_number = 2
-    elif(boxes[0] != 0 and boxes[1] != 0):
-      return jsonify({ 'message': "Aguardando liberação da recepção 1" }), 400
-  else:
-    if(boxes[2] == 0):
-      boxes[2] = proximoDaFila
-      reception_number = 3
-    elif(boxes[2] != 0 and boxes[3] == 0):
-      boxes[3] = proximoDaFila
-      reception_number = 4
-    elif(boxes[2] != 0 and boxes[3] != 0 and boxes[4] == 0):
-      boxes[4] = proximoDaFila
-      reception_number = 5
-    elif(boxes[2] != 0 and boxes[3] != 0 and boxes[4] != 0):
-      return jsonify({ 'message': "Aguardando liberação da recepção 2" }), 400
+  lotacao = 0
+  for box in boxes:
+    lotacao += 1 if box != 0 else 0
   
-  print(queue)
-  newQueue = queue[1:] if queue else queue
+  if(lotacao == 5):
+    return jsonify({ 'message': "Aguarde liberação" }), 400
+  index, reception_number, fifo, boxes = reorderBoxes(data=dataJson, index=0)
+
+  queue.pop(index)
   dataJson = {
     'boxes': boxes,
-    'queue': newQueue
+    'queue': queue
   }
-
-  # print(dataJson)
   createJson(data=json.dumps(dataJson))
   
   appointment_number = fifo[0] + fifo[1] + fifo[2]
