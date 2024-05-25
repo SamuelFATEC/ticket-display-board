@@ -18,17 +18,16 @@ CREATE TABLE IF NOT EXISTS `users` (
 DROP TABLE IF EXISTS `passwords`;
 CREATE TABLE IF NOT EXISTS `passwords` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,
-	`password` int NOT NULL,
-	`box` int NOT NULL,
-	`is_attended` boolean NOT NULL DEFAULT false,
+	`order` int NOT NULL,
+	`is_attended` boolean NOT NULL,
 	`created_at` DATETIME NOT NULL,
-	`date_attended` datetime NOT NULL,
+	`date_attended` datetime,
 	`user_id` int NOT NULL,
-	`is_priority` BOOLEAN DEFAULT false,
+	`is_priority` BOOLEAN,
 	`urgency_level` CHAR(1) NOT NULL,
+	`unformated_password` VARCHAR(8) NOT NULL,
 	PRIMARY KEY (`id`)
 );
-
 DROP TABLE IF EXISTS `feedbacks`;
 CREATE TABLE IF NOT EXISTS `feedbacks` (
 	`id` int AUTO_INCREMENT NOT NULL UNIQUE,

@@ -1,9 +1,9 @@
-from db import connectDatabase
+from models.db import connectDatabase
 
 database = connectDatabase()
+databaseCursor = database.cursor()
 
 def fetchUsers():
-  databaseCursor= database.cursor()
   databaseCursor.execute('SELECT * FROM users')
 
   users_list = databaseCursor.fetchall()
@@ -14,10 +14,15 @@ def fetchUsers():
         'id': item[0],
         'name': item[1],
         'cpf': item[2],
-        'rg': item[3],
-        'date_birthday': item[4],
-        'is_especial': item[5],
-        'deficiency': item[6]
+        'date_birthday': item[3],
+        'is_especial': item[4],
+        'deficiency': item[5]
       }
     )
   return users
+
+def getUserById(userId):
+  query = f'SELECT * FROM users WHERE id = {userId}'
+  databaseCursor.execute(query)
+  user = databaseCursor.fetchall()
+  return user

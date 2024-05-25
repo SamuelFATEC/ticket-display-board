@@ -35,9 +35,6 @@ def organizeQueue(passwords):
     if indexP < lengthPreferential:
       reordered.append(priorityPasswords[indexP])
       indexP += 1
-    if indexP < lengthPreferential:
-      reordered.append(priorityPasswords[indexP])
-      indexP += 1
     if indexN < lengthNormal:
       reordered.append(normalPasswords[indexN])
       indexN += 1
