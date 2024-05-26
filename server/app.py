@@ -3,7 +3,7 @@ from flask_cors import CORS
 
 import json
 
-from models.fetchUsers import fetchUsers, getUserById
+from models.fetchUsers import fetchUsers, getUserByCPF
 from models.createNewUser import createUser
 from models.passwords import fetch_last_password, createPassword, fetchPasswords, fecthOnePasswordByCode, checkoutPassword
 
@@ -11,7 +11,7 @@ from utils.generate_password import generatePassword, formatPassword
 from utils.reorder_queue_by_priority import organizeQueue
 from utils.reorder_boxes import reorderBoxes
 
-from lib.json import createJson, readJson
+from lib.json import createJson, readJson, returnBoxesAndQueue
 
 app = Flask(__name__)
 CORS(app)
@@ -36,9 +36,9 @@ def create_user():
   else:
     return jsonify({ 'message': 'Não foi possível cadastrar o usuário' }), 400
   
-@app.route('/api/users/<int:userId>', methods=["GET"])
-def search_user(userId):
-  user = getUserById(userId)[0]
+@app.route('/api/users/<cpf>', methods=["GET"])
+def search_user(cpf):
+  user = getUserByCPF(cpf)[0]
   if(user):
     user_id = user[0]
     name = user[1]
@@ -156,5 +156,22 @@ def password_checkout(password):
 
   return jsonify(), 204
 
+@app.route('/api/passwords/end', methods=["GET"]) 
+def end():
+  [boxes, queue] = returnBoxesAndQueue()
+
+  isHavePasswordInBoxes = False
+  for item in boxes:
+    isHavePasswordInBoxes = True if item != 0 else isHavePasswordInBoxes
+
+  if(isHavePasswordInBoxes):
+    return jsonify({ 'message': "Ainda há pessoas sendo atendidas" }), 400
+
+  print(queue)
+  if(len(queue) > 0):
+    return jsonify({ 'message': "Ainda há pessoas para serem atendidas" }), 400
+  
+
+  return jsonify({ "link_planilha": "https://docs.google.com/spreadsheets/d/1kdCSm6NCydh3mfUBuYATwlRnl_hbxQYYEUoUkJ0xdT8/edit?usp=sharing" })
 if __name__ == "__main__":
   app.run(debug=True)
