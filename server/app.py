@@ -5,9 +5,9 @@ import json
 
 from models.fetchUsers import fetchUsers, getUserById
 from models.createNewUser import createUser
-from models.passwords import fetch_last_password, createPassword, fetchPasswords
+from models.passwords import fetch_last_password, createPassword, fetchPasswords, fecthOnePasswordByCode, checkoutPassword
 
-from utils.generate_password import generatePassword
+from utils.generate_password import generatePassword, formatPassword
 from utils.reorder_queue_by_priority import organizeQueue
 from utils.reorder_boxes import reorderBoxes
 
@@ -117,6 +117,44 @@ def get_next_password():
       'reception_number': reception_number
   }
   return jsonify(response_data)
+
+@app.route('/api/passwords/checkout/<password>', methods=["PATCH"])
+def password_checkout(password):
+  findedPassword = fecthOnePasswordByCode(password)
   
+  if(len(findedPassword) <= 0):
+    return jsonify({ 'message': "Senha não encontrada" }), 400
+  
+  elif(findedPassword["date_attended"] != None):
+    return jsonify({ 'message': "Essa senha já foi atendida" }), 400
+  
+  dataFromJson = readJson()
+  queue = dataFromJson["queue"]
+  boxes = dataFromJson["boxes"]
+
+  formatedQueue = []
+  for item in queue:
+    formatedQueue.append(formatPassword(item))
+  
+  formatedBoxes = []
+  for item in boxes:
+    formatedBoxes.append(formatPassword(item))
+
+
+  if(password in formatedQueue and not password in formatedBoxes):
+    return jsonify({ 'message': "Ainda está na fila de espera" }), 400
+  
+  checkoutPassword(findedPassword["id"])
+  boxes[formatedBoxes.index(password)] = 0
+
+  data = {
+    'boxes': boxes,
+    'queue': queue
+  }
+
+  createJson(data=json.dumps(data))
+
+  return jsonify(), 204
+
 if __name__ == "__main__":
   app.run(debug=True)
