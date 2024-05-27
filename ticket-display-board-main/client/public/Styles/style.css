@@ -1,0 +1,221 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,600&display=swap');
+
+:root {
+    --layout-background-color: #ffffff;
+    --layout-primary-color: #327ae7;
+    --layout-secondary-color: #242424;
+    --layout-text-color: #FFFFFF;
+}
+
+*{margin: 0;padding: 0;box-sizing: border-box;}
+
+body{
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-wrap: wrap;
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+    overflow: hidden;
+
+}
+
+h1{ font-size: 3rem;}
+
+aside{
+    width: 30vw;
+    height: 100vh;
+    background: var(--layout-secondary-color);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: hidden;
+    padding: 1rem;
+    gap: 1rem;
+}
+
+table {
+    height: fit-content;
+    width: 90%;
+    border-collapse: collapse;
+    box-shadow: 0 0 8px -3px rgba(0, 0, 0, 0.4);
+    border-radius: .5rem;
+}
+
+aside h3{
+    font-size: 1rem;
+    color: var(--layout-text-color);
+
+}
+
+.logo{
+    width: 120px; 
+    height: 120px;
+}
+
+thead tr {
+    background:  var(--layout-primary-color);
+}
+
+tr:nth-child(n + 10) {
+    border: none;
+    visibility: hidden;
+}
+
+/* tr:nth-child(even) {
+
+} */
+
+th,
+td,
+tr {
+    padding: .5rem;
+    text-align: center;
+}
+
+th {
+    background-color: var(--background-color);
+    color: var(--layout-text-color);
+}
+
+td {
+    height: fit-content;
+    font-size: .7rem;
+    color: var(--layout-text-color);
+}
+
+
+section{
+    width: 70vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: var(--layout-secondary-color);
+}
+
+.ticket-counter-display{
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    background: var(--layout-primary-color);
+    color: var(--layout-text-color);
+    flex: 1;
+
+}
+
+.carousel-ads{
+    overflow: hidden;
+    display: flex;
+}
+
+.carousel{
+    width: 300%;
+    display: flex;
+    flex: 4;
+    height: 100%;
+
+}
+
+.carousel-item video{
+    width: 70vw !important;
+    aspect-ratio: 16 / 9;
+    line-height: 0;
+    display: block;
+}
+
+.info {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: .5rem;
+    padding: 5px;
+    color: var(--layout-text-color);
+}
+
+.info span {
+    min-width: 75px;
+    width: fit-content;
+    text-align: center;
+}
+
+.ticket-highlight{
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--layout-primary-color);
+    align-items: center;
+    justify-content: space-around;
+    flex-direction: row;
+    bottom: -100vh;
+    transition: 2s;
+    position: absolute;
+    color: white;
+    h1{
+        font-size: 8rem;
+    }
+}
+
+.ticket-highlight-show{
+    bottom: 0;
+}
+
+@media (max-width: 1024px) {
+    body{
+        flex-direction: column;
+    }
+    .logo{
+        display: none;
+    }
+    aside{
+        width: 100%;
+        height: 75%;
+        background: var(--layout-secondary-color);
+    }
+
+    section{
+        height: 25%;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .carousel-ads{
+        height: 0;
+        display: none;
+    }
+    
+    .ticket-counter-display{
+        height: 25vh;
+        background: var(--layout-primary-color);
+    }
+}
+
+button:enabled{
+    background: var(--layout-secondary-color);
+    color: var(--layout-text-color);
+}
+
+button:disabled{
+    visibility: hidden;
+}
+
+.Protanopia{
+    --layout-background-color: #a6611a ;
+    --layout-primary-color: #dfc27d ;
+    --layout-secondary-color: #80cdc1;
+    --layout-text-color: #018571 ;
+}
+.Deuteranopia{
+    --layout-background-color: #d7191c ;
+    --layout-primary-color: #fdae61 ;
+    --layout-secondary-color: #abd9e9;
+    --layout-text-color: #2c7bb6 ;
+}
+.Tritanopia{
+    --layout-background-color: #a6611a ;
+    --layout-primary-color:  #e66101 ;
+    --layout-secondary-color: #b2abd2;
+    --layout-text-color: #5e3c99 ;
+}

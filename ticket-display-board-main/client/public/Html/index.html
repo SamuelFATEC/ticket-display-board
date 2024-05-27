@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel De Atendimento</title>
+    <link rel="stylesheet" href="../Styles/style.css">
+</head>
+<body>
+    <aside>
+        <img src="../Images/Placeholder.webp" alt="logo" class="logo">
+        <table>
+            <h3>Últimas Chamadas</h3>
+            <thead>
+                <tr>
+                    <th><h4>Senha</h4></th>
+                    <th><h4>Senha</h4</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>N0008</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>N0007</td>
+                    <td>3</td>
+                </tr>
+                <tr>
+                    <td>N0006</td>
+                    <td>2</td>
+                </tr>
+                <tr>
+                    <td>N0005</td>
+                    <td>1</td>
+                </tr>
+                <tr>
+                    <td>N0004</td>
+                    <td>5</td>
+                </tr>
+                <tr>
+                    <td>N0003</td>
+                    <td>4</td>
+                </tr>
+                <tr>
+                    <td>N0002</td>
+                    <td>3</td>
+                </tr>
+            </tbody>
+        </table>
+
+    </aside>
+    <section>
+        <div class="ticket-counter-display">
+            <div>
+                <span>Senha:</span>
+                <h1 class="current-appointment-number"></h1>
+            </div>
+            <div>
+                <span>Guichê:</span>
+                <h1 class="current-reception-number"></h1>
+            </div>
+        </div>
+        <div class="carousel-ads">
+            <div class="carousel">
+                <div class="carousel-item"><video src="../Videos/video1.mp4" autoplay loop muted></video></div>
+                <div class="carousel-item"><video src="../Videos/video2.mp4" autoplay loop muted></video></div>
+                <div class="carousel-item"><video src="../Videos/video3.mp4" autoplay loop muted></video></div>
+            </div>
+        </div>
+        <div class="info">
+            <button id = "button" onclick="disablebutton()">Clique aqui para ativar a fala</button>
+            <span id="info-date">Date</span>
+            <span id="info-time">Time</span>
+        </div>
+   <section id = "ticket" class="ticket-highlight">
+        <div>
+            <span id = "password">Senha:</span>
+            <h1 id = "numberpassword" class="current-appointment-number">N0001</h1>
+        </div>
+        <div>
+            <span id = "guiche">Guichê:</span>
+            <h1 id = "numberguiche" class="current-reception-number">2</h1>
+        </div>
+    </section>
+    <script src="../JS/painel.js"></script>
+    <script src="../JS/dataExchange.js"></script>
+    <script src="../JS/speechtoblindpeople.js"></script>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            updateDateTime()
+            updateCarrousel()
+            
+        });
+
+        function updateDateTime() {
+            setInterval(() => {
+                const now = new Date()
+                const time = now.toLocaleTimeString()
+                const date = now.toLocaleDateString()
+                document.getElementById('info-time').innerText = time
+                document.getElementById('info-date').innerText = date
+            }, 1000);
+        }
+
+        function updateCarrousel(){
+            const carousel = document.querySelector(".carousel")
+            let index = 0
+
+            setInterval(() => {
+                index = (index + 1) % carousel.children.length
+                carousel.style.marginLeft = `-${100 * index}%`
+            }, 7000);
+        }
+    </script>
+</body>
+</html>
