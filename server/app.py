@@ -5,7 +5,7 @@ import json
 
 from models.fetchUsers import fetchUsers, getUserByCPF
 from models.createNewUser import createUser
-from models.passwords import fetch_last_password, createPassword, fetchPasswords, fecthOnePasswordByCode, checkoutPassword
+from models.passwords import fetch_last_password, createPassword, fetchPasswords, fecthOnePasswordByCode, checkoutPassword, findPasswordWithPassword
 
 from utils.generate_password import generatePassword, formatPassword
 from utils.reorder_queue_by_priority import organizeQueue
@@ -74,15 +74,14 @@ def create_password():
 
     if(len(lastPasswords) > 0):
       for item in lastPasswords:
-        oldQueue.append(item["unformatedPassword"])
+        if((item["date_attended"] == None) and (not item["unformatedPassword"] in lastJson["boxes"])):
+          oldQueue.append(item["unformatedPassword"])
 
     reorderedQueue = organizeQueue(oldQueue)
     data = {
       'boxes': lastJson['boxes'],
       'queue': [*reorderedQueue]
     }
-
-    print(data)
 
     dataJson = json.dumps(data)
     createJson(data=dataJson)
@@ -100,9 +99,10 @@ def get_next_password():
   for box in boxes:
     lotacao += 1 if box != 0 else 0
   
-  if(lotacao == 5):
-    return jsonify({ 'message': "Aguarde liberação" }), 400
   index, reception_number, fifo, boxes = reorderBoxes(data=dataJson, index=0)
+  print(reception_number)
+  if(lotacao == 5 or reception_number == -1):
+    return jsonify({ 'message': "Aguarde liberação" }), 400
 
   queue.pop(index)
   dataJson = {
@@ -112,9 +112,14 @@ def get_next_password():
   createJson(data=json.dumps(dataJson))
   
   appointment_number = fifo[0] + fifo[1] + fifo[2]
+
+  [name, eligibility_reason] = findPasswordWithPassword(f"{fifo[0]}.{fifo[1]}.{fifo[2]}")
+
   response_data = {
       'appointment_number': appointment_number,
-      'reception_number': reception_number
+      'reception_number': reception_number,
+      'name': name,
+      'eligibility_reason': eligibility_reason
   }
   return jsonify(response_data)
 
@@ -138,7 +143,7 @@ def password_checkout(password):
   
   formatedBoxes = []
   for item in boxes:
-    formatedBoxes.append(formatPassword(item))
+    formatedBoxes.append(formatPassword(item) if item != 0 else item)
 
 
   if(password in formatedQueue and not password in formatedBoxes):
@@ -167,7 +172,6 @@ def end():
   if(isHavePasswordInBoxes):
     return jsonify({ 'message': "Ainda há pessoas sendo atendidas" }), 400
 
-  print(queue)
   if(len(queue) > 0):
     return jsonify({ 'message': "Ainda há pessoas para serem atendidas" }), 400
   
